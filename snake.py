@@ -13,8 +13,8 @@ win.nodelay(1)
 
 #snake and food
 snake = [(4, 10), (4, 9), (4, 8)] #snake list is storing x & y coordinates which are tuples because they are immutable
-food = (10, 20)
-win.addch(food[0], food[1], '#') #add initial food character to window
+food = (randint(1, 14), randint(1, 50)) #place initial food character in a random spot within the specified range within the window
+win.addch(food[0], food[1], '$') #add initial food character to window
 
 #game logic
 score = 0
@@ -24,7 +24,7 @@ key = curses.KEY_RIGHT #snake begins motion to the right
 while key != ESC:
 
     win.addstr(0, 2, 'Score ' +  str(score) + '')
-    win.timeout(150  - (len(snake)) // 5 + len(snake) // 10% 120) #increasing snake movement speed based on its length
+    win.timeout(150  - (len(snake)) // 5 + len(snake) // 10 % 120) #increasing snake movement speed based on its length
 
     prev_key = key
     event = win.getch() #get next character
@@ -51,14 +51,14 @@ while key != ESC:
 
     snake.insert(0, (y, x)) #append 0(n)
 
-    #check if we hit the border
+    #check if the snake hit the border
     if y == 0: 
         break
-    if y == 19: #per window dimensions set with window initialization
+    if y == 19: #1 less than max window dimensions set with window initialization
         break 
     if x == 0: 
         break
-    if x == 59: #per window dimensions set with window initialization
+    if x == 59: #1 less than max window dimensions set with window initialization
         break 
 
     #check if snake runs over itself
@@ -75,13 +75,13 @@ while key != ESC:
             if food in snake:
                 food = ()
 
-        win.addch(food[0], food[1], '#')
+        win.addch(food[0], food[1], '$')
 
     else:
         last = snake.pop()
         win.addch(last[0], last[1], ' ')
 
-    win.addch(snake[0][0], snake[0][1], '*')
+    win.addch(snake[0][0], snake[0][1], 'o')
 
 
 curses.endwin()
